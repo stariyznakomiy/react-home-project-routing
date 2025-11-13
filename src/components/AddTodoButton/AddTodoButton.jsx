@@ -1,3 +1,4 @@
+import { BUTTON_TEXTS } from '../../constants';
 import styles from './AddTodoButton.module.css';
 
 export const AddTodoButton = ({ isCreating, onAddTodo }) => {
@@ -8,7 +9,7 @@ export const AddTodoButton = ({ isCreating, onAddTodo }) => {
             disabled={isCreating}
             onClick={onAddTodo}
         >
-            {isCreating ? 'Добавление...' : 'Добавить задачу'}
+            {isCreating ? BUTTON_TEXTS.ADDING : BUTTON_TEXTS.ADD_TASK}
         </button>
     );
 };

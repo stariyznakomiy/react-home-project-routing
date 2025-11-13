@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants';
 import styles from './TodoItem.module.css';
 
 export const TodoItem = ({ todo, index }) => {
@@ -9,14 +10,14 @@ export const TodoItem = ({ todo, index }) => {
     const displayTitle = title.length > 50 ? `${title.substring(0, 50)}...` : title;
 
     const handleClick = () => {
-        navigate(`/task/${id}`);
+        navigate(ROUTES.TASK_BY_ID(id));
     };
 
     return (
-        <div className={styles.todoItem}>
+        <li className={styles.todoItem}>
             <div className={styles.title} onClick={handleClick}>
                 {index + 1}. {displayTitle}
             </div>
-        </div>
+        </li>
     );
 };

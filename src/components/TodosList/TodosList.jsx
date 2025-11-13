@@ -1,4 +1,5 @@
 import { TodoItem } from '../TodoItem/TodoItem';
+import { PAGE_TEXTS } from '../../constants';
 import styles from './TodosList.module.css';
 
 export const TodosList = ({ todos, isLoading }) => {
@@ -7,14 +8,14 @@ export const TodosList = ({ todos, isLoading }) => {
     }
 
     if (todos.length === 0) {
-        return <div className={styles.empty}>Задачи не найдены</div>;
+        return <div className={styles.empty}>{PAGE_TEXTS.NO_TASKS}</div>;
     }
 
     return (
-        <div className={styles.todoList}>
+        <ul className={styles.todoList}>
             {todos.map((todo, index) => (
                 <TodoItem key={todo.id} todo={todo} index={index} />
             ))}
-        </div>
+        </ul>
     );
 };

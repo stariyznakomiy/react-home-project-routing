@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../constants';
 import styles from './NotFoundPage.module.css';
 
 export const NotFoundPage = () => {
@@ -10,7 +11,7 @@ export const NotFoundPage = () => {
                 <p className={styles.description}>
                     Извините, запрашиваемая страница не существует.
                 </p>
-                <Link to="/" className={styles.homeLink}>
+                <Link to={ROUTES.HOME} className={styles.homeLink}>
                     Вернуться на главную
                 </Link>
             </div>

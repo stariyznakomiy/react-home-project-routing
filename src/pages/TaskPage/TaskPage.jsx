@@ -1,5 +1,6 @@
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { useRequestGetOneTodo, useRequestDeleteTodo, useRequestUpdateTodo } from '../../hooks';
+import { ROUTES, BUTTON_TEXTS, PAGE_TEXTS } from '../../constants';
 import styles from './TaskPage.module.css';
 
 export const TaskPage = () => {
@@ -11,7 +12,7 @@ export const TaskPage = () => {
         useRequestUpdateTodo(setTodo);
     const { isDeleting, requestDeleteTodo } = useRequestDeleteTodo();
 
-    const redirect = () => navigate('/');
+    const redirect = () => navigate(ROUTES.HOME);
 
     const handleSave = () => {
         requestUpdateTodo(id, editingTitle);
@@ -26,13 +27,13 @@ export const TaskPage = () => {
     }
 
     if (error || !todo) {
-        return <Navigate to="/404" replace={true} />;
+        return <Navigate to={ROUTES.NOT_FOUND} replace={true} />;
     }
 
     return (
         <div className={styles.taskPage}>
             <button className={styles.backButton} onClick={() => navigate(-1)}>
-                ← Назад
+                {BUTTON_TEXTS.BACK}
             </button>
 
             <div className={styles.taskContent}>
@@ -51,7 +52,7 @@ export const TaskPage = () => {
                                 disabled={isUpdating}
                                 className={styles.saveBtn}
                             >
-                                {isUpdating ? 'Сохранение...' : 'Сохранить'}
+                                {isUpdating ? BUTTON_TEXTS.SAVING : BUTTON_TEXTS.SAVE}
                             </button>
                             <button
                                 onClick={() => {
@@ -61,7 +62,7 @@ export const TaskPage = () => {
                                 disabled={isUpdating}
                                 className={styles.cancelBtn}
                             >
-                                Отмена
+                                {BUTTON_TEXTS.CANCEL}
                             </button>
                         </div>
                     </div>
@@ -74,14 +75,14 @@ export const TaskPage = () => {
                                 disabled={isDeleting}
                                 className={styles.editBtn}
                             >
-                                Редактировать
+                                {BUTTON_TEXTS.EDIT}
                             </button>
                             <button
                                 onClick={handleDelete}
                                 disabled={isDeleting}
                                 className={styles.deleteBtn}
                             >
-                                {isDeleting ? 'Удаление...' : 'Удалить'}
+                                {isDeleting ? BUTTON_TEXTS.DELETING : BUTTON_TEXTS.DELETE}
                             </button>
                         </div>
                     </div>
