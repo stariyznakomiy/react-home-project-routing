@@ -13,75 +13,24 @@
   margin-bottom: 16px;
 }
 
-.input {
+.title {
   width: 100%;
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 20px;
+  cursor: pointer;
+  padding: 8px 0;
+  word-wrap: break-word;
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  row-gap: 4px;
+.title:hover {
+  color: #007bff;
+  text-decoration: underline;
 }
 
+/* Удаляем старые стили для кнопок, которые больше не нужны */
+.actions,
 .editBtn,
-.deleteBtn {
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.editBtn {
-  background-color: #495057;
-}
-
-.editBtn:hover {
-  background-color: #3b4046;
-}
-
-.deleteBtn {
-  background-color: #c82333;
-}
-
-.deleteBtn:hover {
-  background-color: #a81d2b;
-}
-
+.deleteBtn,
 .saveBtn,
-.cancelBtn {
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.saveBtn {
-  background-color: #218838;
-}
-
-.saveBtn:hover {
-  background-color: #19682a;
-}
-
-.cancelBtn {
-  background-color: #c82333;
-}
-
-.cancelBtn:hover {
-  background-color: #a81d2b;
-}
-
-.saveBtn:disabled,
-.cancelBtn:disabled,
-.editBtn:disabled,
-.deleteBtn:disabled {
-  background-color: #cccccc;
-  pointer-events: none;
+.cancelBtn,
+.input {
+  display: none;
 }

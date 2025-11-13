@@ -12,6 +12,13 @@
   animation: loader 1s infinite;
 }
 
+.empty {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
 @keyframes loader {
   0% {
     rotate: 0deg;
