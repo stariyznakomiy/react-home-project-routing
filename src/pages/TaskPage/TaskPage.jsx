@@ -1,74 +1,32 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { TODOS_URL, METHODS } from '../../constants';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { useRequestGetOneTodo, useRequestDeleteTodo, useRequestUpdateTodo } from '../../hooks';
 import styles from './TaskPage.module.css';
 
 export const TaskPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [todo, setTodo] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingTitle, setEditingTitle] = useState('');
-    const [isUpdating, setIsUpdating] = useState(false);
+    const { todo, isLoading, error, editingTitle, setEditingTitle, setTodo } =
+        useRequestGetOneTodo(id);
+    const { isEditing, setIsEditing, isUpdating, requestUpdateTodo } =
+        useRequestUpdateTodo(setTodo);
+    const { isDeleting, requestDeleteTodo } = useRequestDeleteTodo();
 
-    useEffect(() => {
-        setIsLoading(true);
-
-        fetch(`${TODOS_URL}/${id}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Задача не найдена');
-                }
-                return response.json();
-            })
-            .then((task) => {
-                setTodo(task);
-                setEditingTitle(task.title);
-            })
-            .catch((error) => {
-                console.error('Ошибка загрузки задачи:', error);
-                setTodo(null);
-            })
-            .finally(() => setIsLoading(false));
-    }, [id]);
+    const redirect = () => navigate('/');
 
     const handleSave = () => {
-        setIsUpdating(true);
-        fetch(`${TODOS_URL}/${id}`, {
-            method: METHODS.UPDATE,
-            headers: { 'Content-type': 'application/json;charset=utf-8' },
-            body: JSON.stringify({ title: editingTitle }),
-        })
-            .then((response) => response.json())
-            .then((updatedTodo) => {
-                setTodo(updatedTodo);
-                setIsEditing(false);
-            })
-            .finally(() => setIsUpdating(false));
+        requestUpdateTodo(id, editingTitle);
     };
 
     const handleDelete = () => {
-        fetch(`${TODOS_URL}/${id}`, {
-            method: METHODS.DELETE,
-        }).then(() => {
-            navigate('/');
-        });
+        requestDeleteTodo(id, redirect);
     };
 
     if (isLoading) {
         return <div className={styles.loader}>Загрузка...</div>;
     }
 
-    if (!todo) {
-        return (
-            <div className={styles.taskPage}>
-                <button className={styles.backButton} onClick={() => navigate(-1)}>
-                    ← Назад
-                </button>
-                <div className={styles.error}>Задача не найдена</div>
-            </div>
-        );
+    if (error || !todo) {
+        return <Navigate to="/404" replace={true} />;
     }
 
     return (
@@ -111,11 +69,19 @@ export const TaskPage = () => {
                     <div className={styles.viewMode}>
                         <h1 className={styles.taskTitle}>{todo.title}</h1>
                         <div className={styles.taskActions}>
-                            <button onClick={() => setIsEditing(true)} className={styles.editBtn}>
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                disabled={isDeleting}
+                                className={styles.editBtn}
+                            >
                                 Редактировать
                             </button>
-                            <button onClick={handleDelete} className={styles.deleteBtn}>
-                                Удалить
+                            <button
+                                onClick={handleDelete}
+                                disabled={isDeleting}
+                                className={styles.deleteBtn}
+                            >
+                                {isDeleting ? 'Удаление...' : 'Удалить'}
                             </button>
                         </div>
                     </div>
